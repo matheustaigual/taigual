@@ -1,913 +1,546 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PetShop Amigo Fiel | Loja Online</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-        }
-
-        body {
-            background: #f8fafc;
-            color: #1e293b;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* HEADER */
-        header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .logo span {
-            color: #fbbf24;
-        }
-
-        .logo i {
-            font-size: 2rem;
-            filter: drop-shadow(0 2px 4px rgba(251,191,36,0.5));
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-            font-size: 1.6rem;
-            transition: transform 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: rgba(255,255,255,0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-        }
-
-        .cart-icon:hover {
-            transform: scale(1.05);
-            background: rgba(255,255,255,0.2);
-        }
-
-        .cart-count {
-            background: #fbbf24;
-            color: #0f172a;
-            font-weight: 700;
-            font-size: 0.8rem;
-            border-radius: 30px;
-            padding: 0.2rem 0.6rem;
-            margin-left: 5px;
-        }
-
-        /* NAV */
-        nav {
-            background: white;
-            padding: 0.8rem 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            border-bottom: 1px solid #e2e8f0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #334155;
-            font-weight: 600;
-            padding: 0.4rem 0.8rem;
-            border-radius: 30px;
-            transition: 0.2s;
-            cursor: pointer;
-        }
-
-        nav a:hover, nav a.active {
-            background: #f1f5f9;
-            color: #0f172a;
-        }
-
-        /* MAIN */
-        main {
-            flex: 1;
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-            width: 100%;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-radius: 40px;
-            padding: 2.5rem 2rem;
-            margin-bottom: 2.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 20px 30px -10px rgba(251,191,36,0.3);
-        }
-
-        .hero-text h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #0f172a;
-            line-height: 1.2;
-        }
-
-        .hero-text p {
-            font-size: 1.2rem;
-            margin: 0.8rem 0 1.5rem;
-            color: #334155;
-        }
-
-        .hero-text button {
-            background: #0f172a;
-            color: white;
-            border: none;
-            padding: 0.9rem 2rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 8px 20px rgba(15,23,42,0.3);
-        }
-
-        .hero-text button:hover {
-            background: #1e293b;
-            transform: translateY(-2px);
-        }
-
-        .hero-image {
-            font-size: 6rem;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
-        }
-
-        /* PRODUTOS GRID */
-        .section-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-title h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        .section-title span {
-            color: #64748b;
-            font-weight: 500;
-        }
-
-        .produtos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.8rem;
-            margin-bottom: 3rem;
-        }
-
-        .produto-card {
-            background: white;
-            border-radius: 28px;
-            padding: 1.5rem 1rem 1.2rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
-            transition: 0.25s;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #f1f5f9;
-        }
-
-        .produto-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 30px -8px rgba(0,0,0,0.15);
-            border-color: #fbbf24;
-        }
-
-        .produto-emoji {
-            font-size: 3.5rem;
-            text-align: center;
-            margin-bottom: 0.8rem;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
-        }
-
-        .produto-card h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-            color: #0f172a;
-        }
-
-        .produto-desc {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-bottom: 0.8rem;
-            line-height: 1.3;
-            flex: 1;
-        }
-
-        .produto-preco {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 0.8rem;
-        }
-
-        .produto-preco small {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #64748b;
-            text-decoration: line-through;
-            margin-left: 5px;
-        }
-
-        .btn-add {
-            background: #fbbf24;
-            border: none;
-            padding: 0.7rem 1rem;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            color: #0f172a;
-            width: 100%;
-        }
-
-        .btn-add:hover {
-            background: #f59e0b;
-            transform: scale(1.02);
-        }
-
-        .btn-add:active {
-            transform: scale(0.98);
-        }
-
-        /* CARRINHO LATERAL */
-        .carrinho-panel {
-            position: fixed;
-            top: 0;
-            right: -420px;
-            width: 100%;
-            max-width: 400px;
-            height: 100vh;
-            background: white;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.15);
-            transition: right 0.3s ease;
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            padding: 1.5rem;
-            overflow-y: auto;
-            border-left: 1px solid #e2e8f0;
-        }
-
-        .carrinho-panel.open {
-            right: 0;
-        }
-
-        .carrinho-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #f1f5f9;
-        }
-
-        .carrinho-header h3 {
-            font-size: 1.5rem;
-            font-weight: 800;
-        }
-
-        .fechar-carrinho {
-            background: none;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #64748b;
-            line-height: 1;
-            transition: 0.2s;
-        }
-
-        .fechar-carrinho:hover {
-            color: #ef4444;
-            transform: rotate(90deg);
-        }
-
-        .carrinho-itens {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .item-carrinho {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f8fafc;
-            padding: 0.8rem 1rem;
-            border-radius: 20px;
-            border: 1px solid #f1f5f9;
-        }
-
-        .item-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .item-nome {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .item-preco {
-            font-size: 0.85rem;
-            color: #64748b;
-        }
-
-        .item-acoes {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .item-acoes button {
-            background: white;
-            border: 1px solid #e2e8f0;
-            width: 30px;
-            height: 30px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-        }
-
-        .item-acoes button:hover {
-            background: #f1f5f9;
-            border-color: #94a3b8;
-        }
-
-        .item-acoes span {
-            font-weight: 700;
-            min-width: 25px;
-            text-align: center;
-        }
-
-        .remover-item {
-            background: #fee2e2 !important;
-            color: #b91c1c;
-            border: none !important;
-            margin-left: 5px;
-        }
-
-        .remover-item:hover {
-            background: #fecaca !important;
-        }
-
-        .carrinho-total {
-            border-top: 2px solid #f1f5f9;
-            padding-top: 1.2rem;
-            margin-top: auto;
-        }
-
-        .total-linha {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            font-size: 1.3rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .btn-finalizar {
-            background: #0f172a;
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            width: 100%;
-            transition: 0.2s;
-        }
-
-        .btn-finalizar:hover {
-            background: #1e293b;
-            transform: translateY(-2px);
-        }
-
-        .btn-finalizar:disabled {
-            background: #94a3b8;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .carrinho-vazio {
-            text-align: center;
-            color: #94a3b8;
-            padding: 3rem 1rem;
-            font-size: 1.1rem;
-        }
-
-        /* OVERLAY */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(2px);
-            z-index: 150;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-
-        .overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* FOOTER */
-        footer {
-            background: #0f172a;
-            color: #94a3b8;
-            padding: 2rem 2rem 1.5rem;
-            margin-top: 3rem;
-            border-radius: 40px 40px 0 0;
-        }
-
-        .footer-content {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 2rem;
-        }
-
-        .footer-col h4 {
-            color: white;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .footer-col p, .footer-col a {
-            color: #94a3b8;
-            text-decoration: none;
-            line-height: 1.8;
-            font-size: 0.95rem;
-        }
-
-        .footer-col a:hover {
-            color: #fbbf24;
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid #1e293b;
-            font-size: 0.9rem;
-        }
-
-        /* TOAST */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #0f172a;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
-            z-index: 300;
-            opacity: 0;
-            transition: 0.3s;
-            pointer-events: none;
-            white-space: nowrap;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        @media (max-width: 700px) {
-            header {
-                padding: 1rem;
-                flex-direction: column;
-                gap: 1rem;
-                align-items: stretch;
-            }
-            .logo {
-                justify-content: center;
-            }
-            .header-actions {
-                justify-content: center;
-            }
-            nav {
-                justify-content: center;
-                padding: 0.8rem 1rem;
-            }
-            .hero {
-                flex-direction: column;
-                text-align: center;
-                padding: 2rem 1.5rem;
-            }
-            .hero-text h1 {
-                font-size: 2rem;
-            }
-            .hero-image {
-                font-size: 4rem;
-                margin-top: 1rem;
-            }
-            .section-title {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.3rem;
-            }
-            .produtos-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 1rem;
-            }
-            .produto-emoji {
-                font-size: 2.8rem;
-            }
-            .carrinho-panel {
-                max-width: 100%;
-                right: -100%;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizzaria Bella Massa | Pedido Online</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #fff8f0 0%, #fde9d8 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      background: #ffffffdd;
+      backdrop-filter: blur(8px);
+      border-radius: 3rem 3rem 2rem 2rem;
+      box-shadow: 0 25px 40px -10px rgba(100, 50, 10, 0.25);
+      padding: 2rem 2rem 2.5rem;
+      border: 1px solid #ffe6d0;
+      transition: all 0.2s;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: #b23b1f;
+      text-align: center;
+      letter-spacing: -0.5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 span {
+      font-size: 2.8rem;
+    }
+
+    .subhead {
+      text-align: center;
+      color: #7a4b2e;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      border-bottom: 2px dashed #f3c9a8;
+      padding-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .campo-nome {
+      margin-bottom: 2rem;
+      background: #fff4ec;
+      padding: 1.2rem 1.8rem;
+      border-radius: 100px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.8), 0 6px 12px rgba(180, 100, 40, 0.1);
+    }
+
+    .campo-nome label {
+      font-weight: 700;
+      color: #6b3a1e;
+      font-size: 1.2rem;
+      letter-spacing: 0.3px;
+    }
+
+    .campo-nome input {
+      flex: 1 1 240px;
+      padding: 0.9rem 1.4rem;
+      border: 2px solid #fad3b4;
+      border-radius: 60px;
+      font-size: 1.05rem;
+      outline: none;
+      background: white;
+      transition: 0.2s;
+      min-width: 200px;
+      font-weight: 500;
+      color: #2d1b0e;
+    }
+
+    .campo-nome input:focus {
+      border-color: #b23b1f;
+      box-shadow: 0 0 0 4px rgba(178, 59, 31, 0.15);
+    }
+
+    .cardapio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+      margin: 2rem 0 2rem;
+    }
+
+    .pizza-card {
+      background: white;
+      border-radius: 1.8rem;
+      padding: 1.5rem 1.2rem 1.2rem;
+      text-align: center;
+      box-shadow: 0 6px 16px rgba(150, 80, 30, 0.08);
+      border: 1px solid #ffdcc5;
+      transition: transform 0.15s ease, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .pizza-card.selecionado {
+      border: 3px solid #b23b1f;
+      background: #fff7f2;
+      transform: scale(1.01);
+      box-shadow: 0 12px 24px -8px #b23b1f55;
+    }
+
+    .pizza-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 24px -8px #a1542e40;
+    }
+
+    .pizza-emoji {
+      font-size: 3.2rem;
+      margin-bottom: 0.4rem;
+      filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.1));
+    }
+
+    .pizza-nome {
+      font-weight: 800;
+      color: #3b2316;
+      font-size: 1.35rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .pizza-desc {
+      font-size: 0.85rem;
+      color: #9b6a4b;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    .pizza-preco {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #b23b1f;
+      background: #fff1e6;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+    }
+
+    .checkbox-indicador {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #dbb594;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.15s;
+      background: #fff;
+      font-size: 1rem;
+      color: white;
+      font-weight: bold;
+    }
+
+    .pizza-card.selecionado .checkbox-indicador {
+      background: #b23b1f;
+      border-color: #b23b1f;
+    }
+
+    .pizza-card.selecionado .checkbox-indicador::after {
+      content: "✓";
+      color: white;
+    }
+
+    .resumo {
+      background: #fef3ea;
+      border-radius: 2rem;
+      padding: 1.6rem 2rem;
+      margin: 1.5rem 0 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: inset 0 1px 8px #ffdcc5, 0 6px 12px #cf9e7b20;
+    }
+
+    .total-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .total-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #7b4a2b;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .total-valor {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #b23b1f;
+      line-height: 1.2;
+    }
+
+    .itens-selecionados {
+      font-size: 0.95rem;
+      color: #9b5e3b;
+      font-weight: 500;
+      background: #ffffffb0;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      max-width: 300px;
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+      border: none;
+      border-radius: 60px;
+      color: white;
+      font-weight: 800;
+      font-size: 1.4rem;
+      padding: 1rem 2.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 12px 20px -8px #25d366aa;
+      width: 100%;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-whatsapp:hover {
+      background: #1ebe5a;
+      transform: scale(1.02);
+      box-shadow: 0 18px 28px -8px #1ebe5a;
+    }
+
+    .btn-whatsapp:active {
+      transform: scale(0.98);
+    }
+
+    .btn-whatsapp:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      filter: grayscale(0.6);
+      box-shadow: none;
+    }
+
+    .whatsapp-icon {
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+
+    .aviso {
+      font-size: 0.8rem;
+      color: #aa7c5e;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .aviso strong {
+      color: #b23b1f;
+    }
+
+    /* responsividade */
+    @media (max-width: 550px) {
+      .container {
+        padding: 1.5rem 1.2rem;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .resumo {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .btn-whatsapp {
+        font-size: 1.2rem;
+        padding: 0.9rem 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>
+      <span>🍕</span> Bella Massa <span>🍕</span>
+    </h1>
+    <div class="subhead">Monte seu pedido e finalize no WhatsApp</div>
 
-    <!-- HEADER -->
-    <header>
-        <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="cursor:pointer;">
-            <i>🐾</i> PetShop <span>Amigo Fiel</span>
-        </div>
-        <div class="header-actions">
-            <div class="cart-icon" id="cartButton">
-                🛒 <span>Carrinho</span>
-                <span class="cart-count" id="cartCount">0</span>
-            </div>
-        </div>
-    </header>
-
-    <!-- NAV -->
-    <nav>
-        <a class="active" onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">Produtos</a>
-        <a onclick="document.getElementById('sobre').scrollIntoView({behavior:'smooth'})">Sobre</a>
-        <a onclick="document.getElementById('servicos').scrollIntoView({behavior:'smooth'})">Serviços</a>
-        <a onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Contato</a>
-    </nav>
-
-    <!-- MAIN -->
-    <main>
-        <!-- HERO -->
-        <section class="hero">
-            <div class="hero-text">
-                <h1>Tudo para seu<br>melhor amigo 🐶</h1>
-                <p>Roupas, brinquedos, rações premium e muito mais.<br>Frete grátis acima de R$ 99.</p>
-                <button onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">Comprar agora →</button>
-            </div>
-            <div class="hero-image">
-                🐕 🐈
-            </div>
-        </section>
-
-        <!-- PRODUTOS -->
-        <div class="section-title" id="produtos">
-            <h2>Destaques da loja</h2>
-            <span id="contadorProdutos">8 produtos</span>
-        </div>
-        <div class="produtos-grid" id="produtosGrid"></div>
-
-        <!-- SOBRE / SERVIÇOS / CONTATO (simplificados para o layout) -->
-        <section id="sobre" style="margin: 3rem 0; background: white; padding: 2rem; border-radius: 40px; box-shadow: 0 8px 20px rgba(0,0,0,0.02);">
-            <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">🐕 Sobre o PetShop Amigo Fiel</h2>
-            <p style="color: #334155; line-height: 1.6; max-width: 700px;">Desde 2015 cuidando do bem-estar dos seus pets com produtos de qualidade e atendimento humanizado. Nossa loja online traz praticidade e os melhores preços.</p>
-        </section>
-
-        <section id="servicos" style="margin: 2rem 0; background: white; padding: 2rem; border-radius: 40px; box-shadow: 0 8px 20px rgba(0,0,0,0.02);">
-            <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">✂️ Serviços</h2>
-            <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
-                <div style="background: #f1f5f9; padding: 1rem 2rem; border-radius: 30px;">Banho e Tosa</div>
-                <div style="background: #f1f5f9; padding: 1rem 2rem; border-radius: 30px;">Consulta Veterinária</div>
-                <div style="background: #f1f5f9; padding: 1rem 2rem; border-radius: 30px;">Leva e Traz</div>
-            </div>
-        </section>
-
-        <section id="contato" style="margin: 2rem 0 1rem; background: white; padding: 2rem; border-radius: 40px; box-shadow: 0 8px 20px rgba(0,0,0,0.02);">
-            <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">📞 Contato</h2>
-            <p style="color: #334155;">WhatsApp: (11) 99999-9999<br>Email: contato@amigofiel.pet<br>Endereço: Av. dos Pets, 123 - São Paulo/SP</p>
-        </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-col">
-                <h4>🐾 PetShop Amigo Fiel</h4>
-                <p>Cuidando com amor desde 2015.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Links</h4>
-                <a href="#" onclick="return false;">Produtos</a><br>
-                <a href="#" onclick="return false;">Serviços</a><br>
-                <a href="#" onclick="return false;">Contato</a>
-            </div>
-            <div class="footer-col">
-                <h4>Atendimento</h4>
-                <p>Seg a Sáb: 9h às 19h</p>
-                <p>WhatsApp: (11) 99999-9999</p>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2025 PetShop Amigo Fiel - Todos os direitos reservados.
-        </div>
-    </footer>
-
-    <!-- OVERLAY -->
-    <div class="overlay" id="overlay"></div>
-
-    <!-- CARRINHO PANEL -->
-    <div class="carrinho-panel" id="carrinhoPanel">
-        <div class="carrinho-header">
-            <h3>🛒 Seu carrinho</h3>
-            <button class="fechar-carrinho" id="fecharCarrinho">&times;</button>
-        </div>
-        <div class="carrinho-itens" id="carrinhoItens">
-            <!-- Preenchido via JS -->
-        </div>
-        <div class="carrinho-total">
-            <div class="total-linha">
-                <span>Total</span>
-                <span id="carrinhoTotal">R$ 0,00</span>
-            </div>
-            <button class="btn-finalizar" id="finalizarCompra" disabled>Finalizar compra</button>
-        </div>
+    <!-- NOME COMPLETO (OBRIGATÓRIO) -->
+    <div class="campo-nome">
+      <label for="nomeCompleto">👤 Nome completo:</label>
+      <input type="text" id="nomeCompleto" placeholder="Ex: Maria Silva Oliveira" autocomplete="name" />
     </div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
+    <!-- CARDÁPIO DE PIZZAS -->
+    <div class="cardapio" id="cardapio">
+      <!-- Pizza 1 -->
+      <div class="pizza-card" data-id="1" data-nome="Margherita" data-preco="45.90">
+        <div class="pizza-emoji">🍕</div>
+        <div class="pizza-nome">Margherita</div>
+        <div class="pizza-desc">Molho de tomate, mussarela, manjericão fresco</div>
+        <div class="pizza-preco">R$ 45,90</div>
+        <div class="checkbox-indicador"></div>
+      </div>
+      <!-- Pizza 2 -->
+      <div class="pizza-card" data-id="2" data-nome="Calabresa" data-preco="49.90">
+        <div class="pizza-emoji">🍕</div>
+        <div class="pizza-nome">Calabresa</div>
+        <div class="pizza-desc">Calabresa fatiada, cebola, mussarela e orégano</div>
+        <div class="pizza-preco">R$ 49,90</div>
+        <div class="checkbox-indicador"></div>
+      </div>
+      <!-- Pizza 3 -->
+      <div class="pizza-card" data-id="3" data-nome="Frango c/ Catupiry" data-preco="54.90">
+        <div class="pizza-emoji">🍕</div>
+        <div class="pizza-nome">Frango c/ Catupiry</div>
+        <div class="pizza-desc">Frango desfiado, catupiry, mussarela e milho</div>
+        <div class="pizza-preco">R$ 54,90</div>
+        <div class="checkbox-indicador"></div>
+      </div>
+      <!-- Pizza 4 -->
+      <div class="pizza-card" data-id="4" data-nome="Quatro Queijos" data-preco="59.90">
+        <div class="pizza-emoji">🍕</div>
+        <div class="pizza-nome">Quatro Queijos</div>
+        <div class="pizza-desc">Mussarela, provolone, gorgonzola e parmesão</div>
+        <div class="pizza-preco">R$ 59,90</div>
+        <div class="checkbox-indicador"></div>
+      </div>
+      <!-- Pizza 5 -->
+      <div class="pizza-card" data-id="5" data-nome="Pepperoni" data-preco="57.90">
+        <div class="pizza-emoji">🍕</div>
+        <div class="pizza-nome">Pepperoni</div>
+        <div class="pizza-desc">Pepperoni fatiado, mussarela e cebola roxa</div>
+        <div class="pizza-preco">R$ 57,90</div>
+        <div class="checkbox-indicador"></div>
+      </div>
+      <!-- Pizza 6 -->
+      <div class="pizza-card" data-id="6" data-nome="Vegetariana" data-preco="52.90">
+        <div class="pizza-emoji">🍕</div>
+        <div class="pizza-nome">Vegetariana</div>
+        <div class="pizza-desc">Abobrinha, berinjela, pimentão, cebola e mussarela</div>
+        <div class="pizza-preco">R$ 52,90</div>
+        <div class="checkbox-indicador"></div>
+      </div>
+    </div>
 
-    <script>
-        // ========== DADOS DOS PRODUTOS ==========
-        const produtos = [
-            { id: 1, nome: 'Ração Premium Cães', desc: 'Pacote 10kg - Sabor Frango', preco: 189.90, emoji: '🥫', precoAntigo: 229.90 },
-            { id: 2, nome: 'Brinquedo Mordedor', desc: 'Borracha resistente - Cães', preco: 39.90, emoji: '🦴', precoAntigo: null },
-            { id: 3, nome: 'Arranhador para Gatos', desc: 'Sisal + Plataformas', preco: 129.90, emoji: '🐱', precoAntigo: 159.90 },
-            { id: 4, nome: 'Coleira Ajustável', desc: 'Nylon reforçado - Tam. M', preco: 49.90, emoji: '🦮', precoAntigo: null },
-            { id: 5, nome: 'Ração Gatos Castrados', desc: 'Pacote 3kg - Salmão', preco: 99.90, emoji: '🐟', precoAntigo: 119.90 },
-            { id: 6, nome: 'Cama Pet Redonda', desc: 'Almofada macia - Tam. P', preco: 89.90, emoji: '🛏️', precoAntigo: null },
-            { id: 7, nome: 'Kit Higiene Banho', desc: 'Shampoo + Condicionador', preco: 59.90, emoji: '🧴', precoAntigo: 79.90 },
-            { id: 8, nome: 'Petiscos Naturais', desc: 'Fígado desidratado 200g', preco: 34.90, emoji: '🍖', precoAntigo: null }
-        ];
+    <!-- RESUMO E TOTAL -->
+    <div class="resumo">
+      <div class="total-info">
+        <span class="total-label">Total do pedido</span>
+        <span class="total-valor" id="totalValor">R$ 0,00</span>
+      </div>
+      <div class="itens-selecionados" id="itensSelecionados">Nenhuma pizza selecionada</div>
+    </div>
 
-        // ========== ESTADO DO CARRINHO ==========
-        let carrinho = []; // { id, nome, preco, emoji, quantidade }
+    <!-- BOTÃO WHATSAPP -->
+    <button class="btn-whatsapp" id="btnFinalizar">
+      <span class="whatsapp-icon">📱</span> Finalizar no WhatsApp
+    </button>
+    <div class="aviso">
+      <strong>⚠️ Atenção:</strong> preencha o nome completo e selecione ao menos uma pizza.
+    </div>
+  </div>
 
-        // ========== ELEMENTOS DOM ==========
-        const produtosGrid = document.getElementById('produtosGrid');
-        const cartCount = document.getElementById('cartCount');
-        const carrinhoPanel = document.getElementById('carrinhoPanel');
-        const carrinhoItens = document.getElementById('carrinhoItens');
-        const carrinhoTotal = document.getElementById('carrinhoTotal');
-        const finalizarCompra = document.getElementById('finalizarCompra');
-        const overlay = document.getElementById('overlay');
-        const cartButton = document.getElementById('cartButton');
-        const fecharCarrinho = document.getElementById('fecharCarrinho');
-        const toast = document.getElementById('toast');
-        const contadorProdutos = document.getElementById('contadorProdutos');
+  <script>
+    (function() {
+      // Número do WhatsApp (apenas dígitos, com DDD e país)
+      const NUMERO_WHATSAPP = '5581993049549'; // 55 (Brasil) + 81 + 993049549
 
-        // ========== RENDERIZAR PRODUTOS ==========
-        function renderizarProdutos() {
-            produtosGrid.innerHTML = produtos.map(produto => `
-                <div class="produto-card">
-                    <div class="produto-emoji">${produto.emoji}</div>
-                    <h3>${produto.nome}</h3>
-                    <div class="produto-desc">${produto.desc}</div>
-                    <div class="produto-preco">
-                        R$ ${produto.preco.toFixed(2).replace('.', ',')}
-                        ${produto.precoAntigo ? `<small>R$ ${produto.precoAntigo.toFixed(2).replace('.', ',')}</small>` : ''}
-                    </div>
-                    <button class="btn-add" data-id="${produto.id}">
-                        + Adicionar
-                    </button>
-                </div>
-            `).join('');
+      // Elementos DOM
+      const cards = document.querySelectorAll('.pizza-card');
+      const totalValorEl = document.getElementById('totalValor');
+      const itensSelecionadosEl = document.getElementById('itensSelecionados');
+      const nomeInput = document.getElementById('nomeCompleto');
+      const btnFinalizar = document.getElementById('btnFinalizar');
 
-            contadorProdutos.textContent = `${produtos.length} produtos`;
+      // Mapa de seleção: id -> { nome, preco }
+      const selecionados = new Map();
 
-            // Adicionar evento aos botões
-            document.querySelectorAll('.btn-add').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = Number(e.currentTarget.getAttribute('data-id'));
-                    adicionarAoCarrinho(id);
-                });
-            });
-        }
+      // Função para atualizar o total e o resumo visual
+      function atualizarTotalEResumo() {
+        let total = 0;
+        const nomes = [];
 
-        // ========== ADICIONAR ITEM ==========
-        function adicionarAoCarrinho(id) {
-            const produto = produtos.find(p => p.id === id);
-            if (!produto) return;
-
-            const itemExistente = carrinho.find(item => item.id === id);
-            if (itemExistente) {
-                itemExistente.quantidade += 1;
-            } else {
-                carrinho.push({
-                    id: produto.id,
-                    nome: produto.nome,
-                    preco: produto.preco,
-                    emoji: produto.emoji,
-                    quantidade: 1
-                });
-            }
-
-            atualizarCarrinho();
-            mostrarToast(`✅ ${produto.nome} adicionado!`);
-        }
-
-        // ========== ATUALIZAR CARRINHO ==========
-        function atualizarCarrinho() {
-            // Quantidade total
-            const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
-            cartCount.textContent = totalItens;
-
-            // Renderizar itens
-            if (carrinho.length === 0) {
-                carrinhoItens.innerHTML = `<div class="carrinho-vazio">🛒 Seu carrinho está vazio</div>`;
-                finalizarCompra.disabled = true;
-                carrinhoTotal.textContent = 'R$ 0,00';
-                return;
-            }
-
-            carrinhoItens.innerHTML = carrinho.map(item => `
-                <div class="item-carrinho">
-                    <div class="item-info">
-                        <span class="item-nome">${item.emoji} ${item.nome}</span>
-                        <span class="item-preco">R$ ${(item.preco * item.quantidade).toFixed(2).replace('.', ',')}</span>
-                    </div>
-                    <div class="item-acoes">
-                        <button class="diminuir" data-id="${item.id}">−</button>
-                        <span>${item.quantidade}</span>
-                        <button class="aumentar" data-id="${item.id}">+</button>
-                        <button class="remover-item" data-id="${item.id}">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-
-            // Total
-            const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
-            carrinhoTotal.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
-            finalizarCompra.disabled = false;
-
-            // Eventos dos botões
-            document.querySelectorAll('.diminuir').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = Number(e.currentTarget.getAttribute('data-id'));
-                    alterarQuantidade(id, -1);
-                });
-            });
-
-            document.querySelectorAll('.aumentar').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = Number(e.currentTarget.getAttribute('data-id'));
-                    alterarQuantidade(id, 1);
-                });
-            });
-
-            document.querySelectorAll('.remover-item').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = Number(e.currentTarget.getAttribute('data-id'));
-                    removerItem(id);
-                });
-            });
-        }
-
-        // ========== ALTERAR QUANTIDADE ==========
-        function alterarQuantidade(id, delta) {
-            const item = carrinho.find(i => i.id === id);
-            if (!item) return;
-
-            const novaQtd = item.quantidade + delta;
-            if (novaQtd <= 0) {
-                removerItem(id);
-            } else {
-                item.quantidade = novaQtd;
-                atualizarCarrinho();
-            }
-        }
-
-        // ========== REMOVER ITEM ==========
-        function removerItem(id) {
-            carrinho = carrinho.filter(item => item.id !== id);
-            atualizarCarrinho();
-            mostrarToast('🗑️ Item removido do carrinho');
-        }
-
-        // ========== MOSTRAR TOAST ==========
-        function mostrarToast(mensagem) {
-            toast.textContent = mensagem;
-            toast.classList.add('show');
-            clearTimeout(window.toastTimeout);
-            window.toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
-
-        // ========== ABRIR / FECHAR CARRINHO ==========
-        function abrirCarrinho() {
-            carrinhoPanel.classList.add('open');
-            overlay.classList.add('active');
-        }
-
-        function fecharCarrinhoFn() {
-            carrinhoPanel.classList.remove('open');
-            overlay.classList.remove('active');
-        }
-
-        // ========== FINALIZAR COMPRA ==========
-        function finalizarCompraFn() {
-            if (carrinho.length === 0) return;
-
-            const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
-            mostrarToast(`🎉 Compra finalizada! Total: R$ ${total.toFixed(2).replace('.', ',')}`);
-            
-            // Limpar carrinho
-            carrinho = [];
-            atualizarCarrinho();
-            fecharCarrinhoFn();
-        }
-
-        // ========== EVENT LISTENERS ==========
-        cartButton.addEventListener('click', abrirCarrinho);
-        fecharCarrinho.addEventListener('click', fecharCarrinhoFn);
-        overlay.addEventListener('click', fecharCarrinhoFn);
-        finalizarCompra.addEventListener('click', finalizarCompraFn);
-
-        // Fechar carrinho com ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && carrinhoPanel.classList.contains('open')) {
-                fecharCarrinhoFn();
-            }
+        selecionados.forEach((item) => {
+          total += item.preco;
+          nomes.push(item.nome);
         });
 
-        // ========== INICIALIZAÇÃO ==========
-        function init() {
-            renderizarProdutos();
-            atualizarCarrinho();
+        // Formatação do total em Real brasileiro
+        const totalFormatado = total.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        totalValorEl.textContent = totalFormatado;
+
+        // Atualiza o texto de itens selecionados
+        if (nomes.length === 0) {
+          itensSelecionadosEl.textContent = 'Nenhuma pizza selecionada';
+        } else if (nomes.length <= 3) {
+          itensSelecionadosEl.textContent = nomes.join(' • ');
+        } else {
+          itensSelecionadosEl.textContent = `${nomes.slice(0, 3).join(' • ')} +${nomes.length - 3}...`;
+        }
+      }
+
+      // Alternar seleção de um card
+      function togglePizza(card) {
+        const id = card.dataset.id;
+        const nome = card.dataset.nome;
+        const preco = parseFloat(card.dataset.preco);
+
+        if (selecionados.has(id)) {
+          // Desmarcar
+          selecionados.delete(id);
+          card.classList.remove('selecionado');
+        } else {
+          // Marcar
+          selecionados.set(id, { nome, preco });
+          card.classList.add('selecionado');
         }
 
-        init();
-    </script>
+        atualizarTotalEResumo();
+      }
+
+      // Adiciona evento de clique a cada card
+      cards.forEach((card) => {
+        card.addEventListener('click', (e) => {
+          // Evita que o clique no checkbox (que não é interativo, mas por precaução) ou em qualquer parte
+          // simplesmente alterna a seleção.
+          togglePizza(card);
+        });
+      });
+
+      // Função para validar nome (mínimo 2 palavras? Vamos aceitar nome completo com pelo menos 3 caracteres e sobrenome)
+      function nomeValido(nome) {
+        const trimmed = nome.trim();
+        if (trimmed.length < 3) return false;
+        // Verifica se tem pelo menos duas palavras (nome e sobrenome)
+        const partes = trimmed.split(/\s+/);
+        return partes.length >= 2 && partes.every(p => p.length > 0);
+      }
+
+      // Finalizar pedido e redirecionar para o WhatsApp
+      function finalizarPedido() {
+        // 1. Validar nome completo
+        const nome = nomeInput.value.trim();
+        if (!nomeValido(nome)) {
+          alert('Por favor, informe seu nome COMPLETO (nome e sobrenome).');
+          nomeInput.focus();
+          return;
+        }
+
+        // 2. Validar se há pizzas selecionadas
+        if (selecionados.size === 0) {
+          alert('Selecione pelo menos uma pizza para continuar.');
+          return;
+        }
+
+        // 3. Montar mensagem
+        let total = 0;
+        const itensMsg = [];
+
+        selecionados.forEach((item) => {
+          total += item.preco;
+          // Formata preço individual
+          const precoFormatado = item.preco.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          });
+          itensMsg.push(`• ${item.nome} — ${precoFormatado}`);
+        });
+
+        const totalFormatado = total.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        });
+
+        // Monta texto com quebras de linha
+        const mensagem = [
+          `*🍕 Pedido Pizzaria Bella Massa*`,
+          `*Cliente:* ${nome}`,
+          ``,
+          `*Itens do pedido:*`,
+          ...itensMsg,
+          ``,
+          `*Total:* ${totalFormatado}`,
+          ``,
+          `Agradecemos a preferência! 😊`
+        ].join('\n');
+
+        // 4. Codifica a mensagem para URL
+        const mensagemEncoded = encodeURIComponent(mensagem);
+        const urlWhatsapp = `https://wa.me/${NUMERO_WHATSAPP}?text=${mensagemEncoded}`;
+
+        // 5. Redireciona
+        window.location.href = urlWhatsapp;
+      }
+
+      // Evento do botão
+      btnFinalizar.addEventListener('click', finalizarPedido);
+
+      // Inicializa (total zero, ninguém selecionado)
+      atualizarTotalEResumo();
+
+      // Opcional: se o usuário pressionar Enter no campo nome, não envia nada
+      nomeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          // Poderia focar no primeiro card ou apenas evitar comportamento padrão
+        }
+      });
+
+      // Pequeno ajuste: Se o usuário clicar duas vezes no mesmo card, desmarca. Já tratado pelo toggle.
+      // Acessibilidade: atribui tabindex? Não é necessário, mas poderia.
+    })();
+  </script>
 </body>
 </html>
